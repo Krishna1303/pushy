@@ -28,8 +28,18 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
+    - name: Build and Install
+      run: mvn clean install -DskipTests -pl pushy -am
+
+    - name: Run Tests
+      run: mvn -pl pushy test -Dtest='com.eatthepath.pushy.apns.server.TokenAuthenticationValidatingPushNotificationHandlerTest#testHandleNotificationWithMissingPayload'
+
+    - name: Run NonDex Plugin
+      run: mvn -pl pushy edu.illinois:nondex-maven-plugin:2.1.1:nondex -Dtest='com.eatthepath.pushy.apns.server.TokenAuthenticationValidatingPushNotificationHandlerTest#testHandleNotificationWithMissingPayload'
+      
     - name: Test with Maven
       env:
         PUSHY_TEST_TRANSPORT: ${{ matrix.transport }}
         PUSHY_TEST_SSL_PROVIDER: ${{ matrix.tls }}
+      
       run: mvn verify -B --file pom.xml
