@@ -37,6 +37,7 @@ jobs:
     # - name: Run NonDex Plugin
     #   run: mvn -pl pushy edu.illinois:nondex-maven-plugin:2.1.1:nondex -Dtest='com.eatthepath.pushy.apns.server.TokenAuthenticationValidatingPushNotificationHandlerTest#testHandleNotificationWithMissingPayload'
       
+
     - name: Test with Maven
       env:
         PUSHY_TEST_TRANSPORT: ${{ matrix.transport }}
